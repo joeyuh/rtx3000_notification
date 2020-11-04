@@ -1,9 +1,28 @@
 class Settings:   # The Settings class
+
+    # Timing
     BETWEEN_ROUNDS = 4
-    TIMEOUT = 1.5
-    TIMEOUT_RETRY = 3.0
+    TIMEOUT = 3.0
+    TIMEOUT_RETRY = 4.0
     UNKNOWN_ERROR_RETRY = 2.0
-    MAX_RETRIES = 4
+    MAX_RETRIES = 3
+
+    # Notification
+    AUDIO_ALERT = True
+    beep_time = 30
+
+    OPEN_IN_BROWSER = True
+
+    EMAIL_ALERT = True
+    sender_email_address = 'gooddealscript@gmail.com'
+    sender_email_password = 'whataPassword'
+    recipients = ['grandpajoe278@gmail.com']
+    subject = 'IN STOCK ALERT'
+
+    SMS = False  # In development, not free service
+
+
+    # URL
     url_bank = [
         "https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442",
         "https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440",
@@ -36,3 +55,14 @@ class Settings:   # The Settings class
         "https://www.bestbuy.com/site/msi-nvidia-geforce-gtx-1650-super-4gb-gddr6-pci-express-3-0-graphics-card-black-gray/6397798.p?skuId=6397798",
         # Debugging if Yes works, the last one should always be in stock
     ]
+
+    html_template = '''
+    <!DOCTYPE html>
+    <html>
+    <body>
+    <h1 style="text-align: center;"><strong><a href="{0}">CLICK HERE</a></strong></h1>
+    </br>
+    {0}
+    </body>
+    </html>
+        '''
