@@ -1,9 +1,9 @@
 class Settings:   # The Settings class
-    BETWEEN_REQUESTS = 2.0
-    TIMEOUT = 3
-    TIMEOUT_RETRY = 5.0
+    BETWEEN_ROUNDS = 4
+    TIMEOUT = 1.5
+    TIMEOUT_RETRY = 3.0
     UNKNOWN_ERROR_RETRY = 2.0
-    MAX_RETRIES = 20
+    MAX_RETRIES = 4
     url_bank = [
         "https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442",
         "https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440",
