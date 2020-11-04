@@ -1,45 +1,58 @@
 import time
 import requests
 import faker
+from settings import *
 
-BETWEEN_REQUESTS = 1.0
-TIMEOUT = 2
-TIMEOUT_RETRY = 5
-UNKNOWN_ERROR_RETRY = 2
 fake = faker.Faker()
-url_bank = [
-    "https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442",
-    "https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440",
-    "https://www.bestbuy.com/site/nvidia-geforce-rtx-3090-24gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429434.p?skuId=6429434",
-    "https://www.bestbuy.com/site/msi-nvidia-geforce-gtx-1650-super-4gb-gddr6-pci-express-3-0-graphics-card-black-gray/6397798.p?skuId=6397798"  # Testing, this should be in stock
-]
 
 
-def detect(link: str):
+def detect(link: str, fails=0) -> bool:
+    status = False
+    if fails > Settings.MAX_RETRIES:
+        print("Max retries used. Continuing. Maybe check Internet connection.")
+        return False
     headers = {
         "accept": "text/html",
-        # "accept-encoding": "gzip, deflate, br",
+        "accept-encoding": "gzip, deflate, br",
         "accept-language": "en-US",
         "User-Agent": fake.chrome(version_from=75, version_to=86)  # Random User Agent
     }  # A very legit header
-    print("Sending Request")
+    # print("Sending Request")
     try:
-        response = requests.get(link, headers=headers, timeout=TIMEOUT)
+        response = requests.get(link, headers=headers, timeout=Settings.TIMEOUT)
         # print(response.text)  # Debug
-        print("Response receive")
-        if 'Sold Out</button>' not in response.text:
-            print("Yes")
+        # print("Response receive")
+        if 'Sold Out</button>' not in response.text and 'Coming Soon</button>' not in response.text:
+            print(f'YES, {link}')
         else:
-            print("No")
+            print(f'No, {link}')
+        return True
     except requests.exceptions.ReadTimeout:
-        print(f'Timeout! Waiting {TIMEOUT_RETRY} seconds')
-        time.sleep(TIMEOUT_RETRY)
-        detect(link)
-    # finally:
-    #     print(f'Unknown error! Waiting {UNKNOWN_ERROR_RETRY} seconds')
-    #     time.sleep(UNKNOWN_ERROR_RETRY)
+        print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
+        time.sleep(Settings.TIMEOUT_RETRY)
+        status = detect(link, fails + 1)  # Retry might works, need to update status
+    except Exception as e:
+        print(f'Error Info: {e}')
+        print(f'Unknown error! Waiting {Settings.UNKNOWN_ERROR_RETRY} seconds')
+        time.sleep(Settings.UNKNOWN_ERROR_RETRY)
+        status = detect(link, fails + 1)  # Retry might works, need to update status
+
+    return status
 
 
 if __name__ == "__main__":
-    for url in url_bank:
-        detect(url)
+    while True:  # Yes, while true
+        success = 0  # success count
+        start_time = time.time()
+        for url in Settings.url_bank:
+            if detect(url):
+                success += 1
+            time.sleep(Settings.BETWEEN_REQUESTS)
+        if success == 0:
+            print(f'Detection of all the URL has failed. Sleeping for {Settings.UNKNOWN_ERROR_RETRY} seconds!')
+            print('Maybe check your Internet connection!')
+            time.sleep(Settings.UNKNOWN_ERROR_RETRY)
+        else:
+            print(
+                f'Went through all URLS in {time.time() - start_time} seconds, {success} Success,'
+                f' {len(Settings.url_bank) - success} Failed')
