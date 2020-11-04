@@ -12,6 +12,9 @@ def alert(times=Settings.beep_time):
 
 
 def notify(url_list):
+    if len(url_list) == 0:
+        return
+
     alert_thread = threading.Thread(target=alert)
     email_thread = []
 
@@ -34,6 +37,3 @@ def notify(url_list):
     alert_thread.join()  # Finally join
     for t in email_thread: t.join()
 
-
-if __name__ == "__main__":
-    notify(["google.com"])
