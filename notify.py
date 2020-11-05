@@ -12,18 +12,18 @@ def alert(times=Settings.beep_time):
 
 
 def notify(url_list):
-    if len(url_list) == 0:
+    if len(url_list) == 0:   # empty list do nothing
         return
 
     alert_thread = threading.Thread(target=alert)
     email_thread = []
 
     if Settings.AUDIO_ALERT:
-        alert_thread.start()
+        alert_thread.start()  # Start audio thread, and while the alarm plays, continue to apply other alerts
 
     if Settings.OPEN_IN_BROWSER:
         for url in url_list:
-            webbrowser.open_new(url)
+            webbrowser.open_new(url)  # open the url in the default browser
 
     if Settings.EMAIL_ALERT:
         for url in url_list:
@@ -32,8 +32,9 @@ def notify(url_list):
                                                                                  address,
                                                                                  url,
                                                                                  Settings.html_template.format(url))))
-        for t in email_thread: t.start()
+                # Send multiple email by calling send email function with multithreading
+        for t in email_thread: t.start()  # start all email threads
 
-    alert_thread.join()  # Finally join
-    for t in email_thread: t.join()
+    alert_thread.join()  # Finally join audio
+    for t in email_thread: t.join()  # Join all email threads
 

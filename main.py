@@ -11,7 +11,7 @@ fake = faker.Faker()
 
 def detect(link: str, v, a, lock):
     fails = 0
-    while True:
+    while True:  # Need to while true until reached max retries
         if fails > Settings.MAX_RETRIES:
             print("Max retries used. Continuing. Maybe check Internet connection.")
             return False
@@ -32,20 +32,22 @@ def detect(link: str, v, a, lock):
                 result = True
             else:
                 print(f'No, {link}')
-            with lock:
-                v.value += 1
+            with lock:  # Lock variable for editing
+                v.value += 1  # Success count ++
                 if result:
-                    a.append(link)
-            return None
-        except requests.exceptions.ReadTimeout:
+                    a.append(link)  # If in stock add link to the in stock list for notification
+            return None  # exit the function if we succeed
+        except requests.exceptions.ReadTimeout:  # Timeout is typical
             # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
             time.sleep(Settings.TIMEOUT_RETRY)
             fails += 1
-        except Exception as e:
+            # continue to next try
+        except Exception as e:  # Unknown error
             print(f'Error Info: {e}')
             print(f'Unknown error! Waiting {Settings.UNKNOWN_ERROR_RETRY} seconds')
             time.sleep(Settings.UNKNOWN_ERROR_RETRY)
             fails += 1
+            # continue to next try
 
 
 if __name__ == "__main__":
@@ -53,11 +55,11 @@ if __name__ == "__main__":
         while True:  # Yes, while true
             start_time = time.time()
             v = Value('i', 0)  # success count
-            l = manager.list()
-            lock = Lock()
-            procs = [Process(target=detect, args=(url, v, l, lock)) for url in Settings.url_bank]
-            for p in procs: p.start()
-            for p in procs: p.join()
+            l = manager.list()  # in stock list
+            lock = Lock()  # variable lock
+            procs = [Process(target=detect, args=(url, v, l, lock)) for url in Settings.url_bank]  # Multithreading
+            for p in procs: p.start()  # Start all thread
+            for p in procs: p.join()  # join all threads
             if v.value == 0:
                 print(f'Detection of all the URL has failed. Sleeping for {Settings.UNKNOWN_ERROR_RETRY} seconds!')
                 print('Maybe check your Internet connection!')
