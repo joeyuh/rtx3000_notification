@@ -28,7 +28,7 @@ def notify(url_list):
     if Settings.EMAIL_ALERT:
         for url in url_list:
             for address in Settings.recipients:
-                email_thread.append(threading.Thread(target=send_an_email, args=(Settings.subject,
+                email_thread.append(threading.Thread(target=send_an_email, args=(Settings.subject + url,
                                                                                  address,
                                                                                  url,
                                                                                  Settings.html_template.format(url))))

@@ -25,18 +25,23 @@ def detect(link: str, v, a, lock):
         try:
             result = False
             response = requests.get(link, headers=headers, timeout=Settings.TIMEOUT)
-            # print(response.text)  # Debug
-            # print("Response receive")
-            if 'Sold Out</button>' not in response.text and 'Coming Soon</button>' not in response.text:
-                print(f'YES, {link}')
-                result = True
-            else:
-                print(f'No, {link}')
-            with lock:  # Lock variable for editing
-                v.value += 1  # Success count ++
-                if result:
-                    a.append(link)  # If in stock add link to the in stock list for notification
-            return None  # exit the function if we succeed
+            if response.status_code == 200:  # 200 OK
+                # print(response.text)  # Debug
+                # print("Response receive")
+                if 'Sold Out</button>' not in response.text and 'Coming Soon</button>' not in response.text:
+                    print(f'YES, {link}')
+                    result = True
+                else:
+                    print(f'No, {link}')
+                with lock:  # Lock variable for editing
+                    v.value += 1  # Success count ++
+                    if result:
+                        a.append(link)  # If in stock add link to the in stock list for notification
+                return None  # exit the function if we succeed
+            else:  # Non-success status code, failed
+                print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
+                time.sleep(Settings.TIMEOUT_RETRY)
+                fails += 1
         except requests.exceptions.ReadTimeout:  # Timeout is typical
             # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
             time.sleep(Settings.TIMEOUT_RETRY)
