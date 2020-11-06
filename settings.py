@@ -76,7 +76,7 @@ class Settings:   # The Settings class
         "https://www.amazon.com/ZOTAC-Graphics-IceStorm-Advanced-ZT-A30700H-10P/dp/B08LF1CWT2",
         "https://www.amazon.com/ASUS-Graphics-DisplayPort-Axial-tech-2-9-Slot/dp/B08L8JNTXQ",
         "https://www.amazon.com/MSI-GeForce-256-Bit-Architecture-Graphics/dp/B08KWLMZV4",
-        'https://www.amazon.com/Skytech-Prism-Gaming-Desktop-Motherboard/dp/B08K1C22YY'
+        # 'https://www.amazon.com/Skytech-Prism-Gaming-Desktop-Motherboard/dp/B08K1C22YY'
         # Debugging if Yes works, the last one should always be in stock
 
     ]
