@@ -15,7 +15,7 @@ class Settings:   # The Settings class
 
     EMAIL_ALERT = True
     sender_email_address = 'gooddealscript@gmail.com'  # Gmail only
-    sender_email_password = '***'
+    sender_email_password = 'whataPassword'
     recipients = ['grandpajoe278@gmail.com']
     subject = 'IN STOCK ALERT '
 
