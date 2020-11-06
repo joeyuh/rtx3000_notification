@@ -17,12 +17,12 @@ class Settings:   # The Settings class
     sender_email_address = 'gooddealscript@gmail.com'  # Gmail only
     sender_email_password = '***'
     recipients = ['grandpajoe278@gmail.com']
-    subject = 'IN STOCK ALERT'
+    subject = 'IN STOCK ALERT '
 
     SMS = False  # In development, not free service, probably not gonna deploy
 
     # URL
-    url_bank = [
+    bestbuty_url_bank = [
         "https://www.bestbuy.com/site/nvidia-geforce-rtx-3070-8gb-gddr6-pci-express-4-0-graphics-card-dark-platinum-and-black/6429442.p?skuId=6429442",
         "https://www.bestbuy.com/site/nvidia-geforce-rtx-3080-10gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429440.p?skuId=6429440",
         "https://www.bestbuy.com/site/nvidia-geforce-rtx-3090-24gb-gddr6x-pci-express-4-0-graphics-card-titanium-and-black/6429434.p?skuId=6429434",
@@ -53,6 +53,32 @@ class Settings:   # The Settings class
         "https://www.bestbuy.com/site/pny-geforce-rtx-3090-24gb-xlr8-gaming-epic-x-rgb-triple-fan-graphics-card/6432657.p?skuId=6432657",
         # "https://www.bestbuy.com/site/msi-nvidia-geforce-gtx-1650-super-4gb-gddr6-pci-express-3-0-graphics-card-black-gray/6397798.p?skuId=6397798",
         # Debugging if Yes works, the last one should always be in stock
+    ]
+
+    # RTX 3070 and RTX 3080 only
+    amazon_url_bank = [
+        "https://www.amazon.com/ZOTAC-Graphics-IceStorm-Advanced-ZT-A30800D-10P/dp/B08HJNKT3P?ref_=ast_sto_dp&th=1&psc=1",
+        "https://www.amazon.com/ASUS-Graphics-DisplayPort-Military-Grade-Certification/dp/B08HH5WF97?ref_=ast_sto_dp",
+        "https://www.amazon.com/ASUS-Graphics-DisplayPort-Military-Grade-Certification/dp/B08HHDP9DW?ref_=ast_sto_dp",
+        "https://www.amazon.com/PNY-GeForce-Gaming-Epic-X-Graphics/dp/B08HBR7QBM?ref_=ast_sto_dp&th=1&psc=1",
+        "https://www.amazon.com/PNY-GeForce-Gaming-Uprising-Graphics/dp/B08HBTJMLJ?ref_=ast_sto_dp&th=1&psc=1",
+        "https://www.amazon.com/MSI-GeForce-RTX-3080-10G/dp/B08HR5SXPS?ref_=ast_sto_dp",
+        "https://www.amazon.com/MSI-GeForce-RTX-3080-10G/dp/B08HR7SV3M?ref_=ast_sto_dp",
+        "https://www.amazon.com/EVGA-10G-P5-3897-KR-GeForce-Technology-Backplate/dp/B08HR3Y5GQ?ref_=ast_sto_dp",
+        "https://www.amazon.com/EVGA-10G-P5-3895-KR-GeForce-Technology-Backplate/dp/B08HR3DPGW?ref_=ast_sto_dp",
+        "https://www.amazon.com/EVGA-10G-P5-3885-KR-GeForce-Cooling-Backplate/dp/B08HR55YB5?ref_=ast_sto_dp",
+        "https://www.amazon.com/EVGA-10G-P5-3883-KR-GeForce-Cooling-Backplate/dp/B08HR4RJ3Q?ref_=ast_sto_dp",
+        "https://www.amazon.com/EVGA-10G-P5-3881-KR-GeForce-GAMING-Cooling/dp/B08HR6FMF3?ref_=ast_sto_dp",
+        "https://www.amazon.com/GIGABYTE-Graphics-WINDFORCE-GV-N3080GAMING-OC-10GD/dp/B08HJTH61J?ref_=ast_sto_dp&th=1&psc=1",
+        "https://www.amazon.com/Gigabyte-Graphics-WINDFORCE-GV-N3080EAGLE-OC-10GD/dp/B08HJS2JLJ?ref_=ast_sto_dp",
+        "https://www.amazon.com/dp/B08HBF5L3K/ref=twister_B08M7B1ZK7?_encoding=UTF8&th=1",
+        "https://www.amazon.com/EVGA-08G-P5-3751-KR-GeForce-Gaming-Cooling/dp/B08LW46GH2",
+        "https://www.amazon.com/ZOTAC-Graphics-IceStorm-Advanced-ZT-A30700H-10P/dp/B08LF1CWT2",
+        "https://www.amazon.com/ASUS-Graphics-DisplayPort-Axial-tech-2-9-Slot/dp/B08L8JNTXQ",
+        "https://www.amazon.com/MSI-GeForce-256-Bit-Architecture-Graphics/dp/B08KWLMZV4",
+        'https://www.amazon.com/Skytech-Prism-Gaming-Desktop-Motherboard/dp/B08K1C22YY'
+        # Debugging if Yes works, the last one should always be in stock
+
     ]
 
     html_template = '''
