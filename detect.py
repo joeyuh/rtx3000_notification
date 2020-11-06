@@ -75,7 +75,11 @@ def amazon_detect(link: str, v, a, lock):
             # print(response.text)  # Debug
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
-                if 'Available from' in response.text or 'Currently unavailable' in response.text:
+                if 'not a robot' in response.text:
+                    print(f'Amazon think we are bot, sleeping {Settings.BOT_RETRY} seconds')
+                    time.sleep(Settings.BOT_RETRY)
+                    fails+=1
+                elif 'Available from' in response.text or 'Currently unavailable' in response.text:
                     print(f'No, {link}')
                 else:
                     print(f'YES, {link}')

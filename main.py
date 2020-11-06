@@ -1,6 +1,3 @@
-import time
-import requests
-import faker
 from multiprocessing import Process, Value, Lock, Manager
 
 from settings import *
