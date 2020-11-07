@@ -87,25 +87,29 @@ def amazon_detect(link: str, v, a, lock):
         try:
             result = False
             response = requests.get(link, headers=headers, timeout=Settings.TIMEOUT)
-            # print(response.text)  # Debug
+            # print(response.text)  # Debugm
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
-                if 'not a robot' in response.text:
+                if 'a-touch a-mobile' in response.text:
+                    print('Somehow we have a touch screen user_agent, retrying immediately')
+                    fails += 1
+                elif 'not a robot' in response.text:
                     print(f'Amazon think we are bot, sleeping {Settings.BOT_RETRY} seconds')
                     time.sleep(Settings.BOT_RETRY)
-                    fails+=1
-                elif 'Available from' in response.text or 'Currently unavailable' in response.text:
-                    print(f'No, {link}')
+                    fails += 1
                 else:
-                    print(f'YES, {link}')
-                    with open('debug.html', 'w') as f:
-                        f.write(response.text)
-                    result = True
-                with lock:
-                    v.value += 1
-                    if result:
-                        a.append(link)
-                return None
+                    if 'Available from' in response.text or 'Currently unavailable' in response.text:
+                        print(f'No, {link}')
+                    else:
+                        print(f'YES, {link}')
+                        with open('debug.html', 'w') as f:
+                            f.write(response.text)
+                        result = True
+                    with lock:
+                        v.value += 1
+                        if result:
+                            a.append(link)
+                    return None
             else:  # Non-success status code, failed
                  print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
                  time.sleep(Settings.TIMEOUT_RETRY)
