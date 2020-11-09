@@ -6,7 +6,7 @@ class Settings:   # The Settings class
     TIMEOUT_RETRY = 4.0
     UNKNOWN_ERROR_RETRY = 2.0
     MAX_RETRIES = 3
-    BOT_RETRY = 10
+    BOT_RETRY = 1
 
     # Notification
     AUDIO_ALERT = True
@@ -86,6 +86,76 @@ class Settings:   # The Settings class
         "https://www.amazon.com/dp/B08KWN2LZG?tag=nisdis-20&linkCode=ogi&th=1&psc=1",
         # 'https://www.amazon.com/Skytech-Prism-Gaming-Desktop-Motherboard/dp/B08K1C22YY'
         # Debugging if Yes works, the last one should always be in stock
+
+    ]
+
+    newegg_url_bank = [
+        # RTX 3080
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190361&quicklink=true',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190357',
+        'https://www.newegg.com/evga-geforce-rtx-3080-10g-p5-3897-kr/p/N82E16814487518',
+        'https://www.newegg.com/evga-geforce-rtx-3080-10g-p5-3885-kr/p/N82E16814487520',
+        'https://www.newegg.com/asus-geforce-rtx-3080-rog-strix-rtx3080-o10g-gaming/p/N82E16814126457',
+        'https://www.newegg.com/msi-geforce-rtx-3080-rtx-3080-ventus-3x-10g-oc/p/N82E16814137598',
+        'https://www.newegg.com/pny-geforce-rtx-3080-vcg308010tfxmpb/p/N82E16814133810',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4199693',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4199695',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190483',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3080-gv-n3080aorus-m-10gd/p/N82E16814932336',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3080-gv-n3080gaming-oc-10gd/p/N82E16814932329',
+        'https://www.newegg.com/asus-geforce-rtx-3080-tuf-rtx3080-o10g-gaming/p/N82E16814126452',
+        'https://www.newegg.com/msi-geforce-rtx-3080-rtx-3080-gaming-x-trio-10g/p/N82E16814137597',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3080-gv-n3080vision-oc-10gd/p/N82E16814932337',
+        'https://www.newegg.com/zotac-geforce-rtx-3080-zt-a30800d-10p/p/N82E16814500502',
+        'https://www.newegg.com/zotac-geforce-rtx-3080-zt-t30800j-10p/p/N82E16814500504',
+        'https://www.newegg.com/pny-geforce-rtx-3080-vcg308010tfxppb/p/N82E16814133809',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3080-gv-n3080aorus-x-10gd/p/N82E16814932345',
+        'https://www.newegg.com/p/1FT-00AX-00004',
+        'https://www.newegg.com/msi-geforce-rtx-3080-rtx-3080-ventus-3x-10g/p/N82E16814137600',
+        'https://www.newegg.com/asus-geforce-rtx-3080-tuf-rtx3080-10g-gaming/p/N82E16814126453',
+        'https://www.newegg.com/evga-geforce-rtx-3080-10g-p5-3883-kr/p/N82E16814487521',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3080-gv-n3080eagle-oc-10gd/p/N82E16814932330',
+        'https://www.newegg.com/evga-geforce-rtx-3080-10g-p5-3881-kr/p/N82E16814487522',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3080-gv-n3080eagle-10gd/p/N82E16814932367',
+        'https://www.newegg.com/evga-geforce-rtx-3080-10g-p5-3895-kr/p/N82E16814487519',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190359',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190363',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4191565',
+
+        # RTX 3070
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190581',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190543',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190541',
+        'https://www.newegg.com/evga-geforce-rtx-3070-08g-p5-3751-kr/p/N82E16814487528',
+        'https://www.newegg.com/evga-geforce-rtx-3070-08g-p5-3767-kr/p/N82E16814487532',
+        'https://www.newegg.com/asus-geforce-rtx-3070-rog-strix-rtx3070-o8g-gaming/p/N82E16814126458',
+        'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-ventus-2x-oc/p/N82E16814137602',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4204103',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4203469',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4203435',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190539',
+        'https://www.newegg.com/Product/ComboDealDetails?ItemList=Combo.4190537',
+        'https://www.newegg.com/asus-geforce-rtx-3070-tuf-rtx3070-o8g-gaming/p/1FT-000Y-00532',
+        'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-ventus-3x-oc/p/1FT-0009-004W6',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3070-gv-n3070vision-oc-8gd/p/N82E16814932360',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3070-gv-n3070gaming-oc-8gd/p/N82E16814932342',
+        'https://www.newegg.com/zotac-geforce-rtx-3070-zt-a30700h-10p/p/N82E16814500505',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3070-gv-n3070aorus-m-8gd/p/N82E16814932359',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3070-gv-n3070eagle-8gd/p/N82E16814932344',
+        'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-ventus-3x-oc/p/N82E16814137601',
+        'https://www.newegg.com/asus-geforce-rtx-3070-dual-rtx3070-o8g/p/N82E16814126459',
+        'https://www.newegg.com/zotac-geforce-rtx-3070-zt-a30700e-10p/p/N82E16814500501',
+        'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-gaming-x-trio/p/N82E16814137603',
+        'https://www.newegg.com/gigabyte-geforce-rtx-3070-gv-n3070eagle-oc-8gd/p/N82E16814932343',
+        'https://www.newegg.com/asus-geforce-rtx-3070-dual-rtx3070-8g/p/N82E16814126460',
+        'https://www.newegg.com/asus-geforce-rtx-3070-tuf-rtx3070-o8g-gaming/p/1FT-00AX-00005',
+        'https://www.newegg.com/msi-geforce-rtx-3070-rtx-3070-ventus-2x/p/N82E16814137605',
+        'https://www.newegg.com/evga-geforce-rtx-3070-08g-p5-3753-kr/p/N82E16814487529',
+        'https://www.newegg.com/evga-geforce-rtx-3070-08g-p5-3765-kr/p/N82E16814487531',
+        'https://www.newegg.com/evga-geforce-rtx-3070-08g-p5-3755-kr/p/N82E16814487530',
+        'https://www.newegg.com/asus-geforce-rtx-3070-tuf-rtx3070-o8g-gaming/p/N82E16814126461',
+        # 'https://www.newegg.com/msi-geforce-gtx-1660-super-gtx-1660-super-ventus-xs-oc/p/N82E16814137475'
+        # Last line is a test
 
     ]
 
