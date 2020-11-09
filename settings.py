@@ -2,11 +2,11 @@ class Settings:   # The Settings class
 
     # Timing
     BETWEEN_ROUNDS = 4
-    TIMEOUT = 3.0
-    TIMEOUT_RETRY = 4.0
+    TIMEOUT = 1.5
+    TIMEOUT_RETRY = 2
     UNKNOWN_ERROR_RETRY = 2.0
     MAX_RETRIES = 3
-    BOT_RETRY = 1
+    BOT_RETRY = 0.5
 
     # Notification
     AUDIO_ALERT = True
