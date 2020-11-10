@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from settings import *
 
+
 def send_an_email(subject, recipient, text_content, html_content):
     email_address = Settings.sender_email_address
     email_password = Settings.sender_email_password
