@@ -15,7 +15,7 @@ fake = faker.Faker()
 def bestbuy_detect(link: str, v, a, lock):
     fails = 0
     while True:
-        if fails > Settings.MAX_RETRIES:
+        if fails > Settings.MAX_RETRIES_COUNT:
             print("Max retries used. Continuing. Maybe check Internet connection.")
             return False
         headers = {
@@ -66,7 +66,7 @@ def bestbuy_detect(link: str, v, a, lock):
 def amazon_detect(link: str, v, a, lock):
     fails = 0
     while True:
-        if fails > Settings.MAX_RETRIES:
+        if fails > Settings.MAX_RETRIES_COUNT:
             print("Max retries used. Continuing. Maybe check Internet connection.")
             return False
         headers = {
@@ -129,7 +129,7 @@ def amazon_detect(link: str, v, a, lock):
 def newegg_detect(link: str, v, a, lock):
     fails = 0
     while True:
-        if fails > Settings.MAX_RETRIES:
+        if fails > Settings.MAX_RETRIES_COUNT:
             print("Max retries used. Continuing. Maybe check Internet connection.")
             return False
         headers = {
