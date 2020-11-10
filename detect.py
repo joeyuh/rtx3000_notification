@@ -102,10 +102,13 @@ def amazon_detect(link: str, v, a, lock):
                     if 'Available from' in response.text or 'Currently unavailable' in response.text:
                         print(f'No, {link}')
                     else:
-                        print(f'YES, {link}')
-                        with open('debug.html', 'w') as f:
-                            f.write(response.text)
-                        result = True
+                        if '<span class="tabular-buybox-text">Amazon.com</span>' in response.text:  # Amazon sold only
+                            print(f'YES, {link}')
+                            # with open('debug.html', 'w') as f:
+                            #    f.write(response.text)
+                            result = True
+                        else:
+                            print(f'No, {link}')
                     with lock:
                         v.value += 1
                         if result:
