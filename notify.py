@@ -34,7 +34,8 @@ def notify(url_list):
                                                                                  Settings.html_template.format(url))))
                 # Send multiple email by calling send email function with multithreading
         for t in email_thread: t.start()  # start all email threads
+    if Settings.AUDIO_ALERT:
+        alert_thread.join()  # Finally join audio
 
-    alert_thread.join()  # Finally join audio
     for t in email_thread: t.join()  # Join all email threads
 
