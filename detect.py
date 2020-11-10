@@ -95,7 +95,7 @@ def amazon_detect(link: str, v, a, lock):
                     print('Somehow we have a touch screen user_agent, retrying immediately')
                     # fails += 1
                 elif 'not a robot' in response.text:
-                    print(f'Amazon think we are bot, sleeping {Settings.BOT_RETRY} seconds')
+                    # print(f'Amazon think we are bot, sleeping {Settings.BOT_RETRY} seconds')
                     time.sleep(Settings.BOT_RETRY)
                     fails += 1
                 else:
