@@ -38,11 +38,12 @@ def bestbuy_detect(link: str, v, a, lock):
             # print(response.text)  # Debug
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
-                if 'Sold Out</button>' not in response.text and 'Coming Soon</button>' not in response.text:
-                    print(f'YES, {link}')
-                    result = True
-                else:
+                if 'Sold Out</button>' in response.text or 'Coming Soon</button>' in response.text:
                     print(f'No, {link}')
+                else:
+                    if 'This item is no longer available in new condition.' not in response.text:
+                        print(f'YES, {link}')
+                        result = True
                 with lock:
                     v.value += 1
                     if result:
