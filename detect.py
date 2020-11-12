@@ -1,17 +1,11 @@
-import requests
-import faker
 import time
-import random
-import json
+
+import faker
+import requests
 
 from settings import *
 
 fake = faker.Faker()
-
-
-# f = open('user-agents_chrome_browser_win10_64.json')
-# win10_user_agents = json.load(f)
-
 
 def bestbuy_detect(link: str, v, a, lock):
     fails = 0
@@ -30,7 +24,7 @@ def bestbuy_detect(link: str, v, a, lock):
             "Accept-Language": "en-US,en;q=0.9",
             "Connection": "keep-alive",
             "Upgrade-Insecure-Requests": "1",
-            "User-Agent": fake.chrome(version_from=70, version_to=86)  # Random User Agent
+            "User-Agent": fake.chrome(version_from=65, version_to=86)  # Random User Agent
         }  # A very legit header
         # print("Sending Request")
         try:
@@ -84,14 +78,14 @@ def amazon_detect(link: str, v, a, lock):
             "Connection": "keep-alive",
             "Upgrade-Insecure-Requests": "1",
             # "User-Agent": random.choice(win10_user_agents)# Random Windows 10 User Agent
-            "User-Agent": fake.chrome(version_from=70, version_to=86)  # Random User Agent
+            "User-Agent": fake.chrome(version_from=65, version_to=86)  # Random User Agent
         }
         # A list must be used here because amazon is different when a mobile user agent is given
         # print("Sending Request")
         try:
             result = False
             response = requests.get(link, headers=headers, timeout=Settings.TIMEOUT)
-            # print(response.text)  # Debugm     n
+            # print(response.text)  # Debug
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
                 if 'a-touch a-mobile' in response.text:
@@ -149,7 +143,7 @@ def newegg_detect(link: str, v, a, lock):
             "Accept-Language": "en-US,en;q=0.9",
             "Connection": "keep-alive",
             "Upgrade-Insecure-Requests": "1",
-            "User-Agent": fake.chrome(version_from=70, version_to=86)  # Random User Agent
+            "User-Agent": fake.chrome(version_from=65, version_to=86)  # Random User Agent
         }  # A very legit header
         # print("Sending Request")
         try:

@@ -1,8 +1,7 @@
 from multiprocessing import Process, Value, Lock, Manager
 
-from settings import *
-from notify import *
 from detect import *
+from notify import *
 
 if __name__ == "__main__":
     with Manager() as manager:
