@@ -9,11 +9,11 @@ if __name__ == "__main__":
         notify = Notify()
         total_url_count = len(Settings.bestbuty_url_bank) + len(Settings.amazon_url_bank) + len(
             Settings.newegg_url_bank)
-        start_time = time.time()
-        v = Value('i', 0)  # success count
-        l = manager.list()
-        lock = Lock()
         while True:  # Yes, while true
+            start_time = time.time()
+            v = Value('i', 0)  # success count
+            l = manager.list()
+            lock = Lock()
             best_buy_procs = [Process(target=bestbuy_detect, args=(url, v, l, lock)) for url in
                               Settings.bestbuty_url_bank]
             amazon_procs = [Process(target=amazon_detect, args=(url, v, l, lock)) for url in Settings.amazon_url_bank]
