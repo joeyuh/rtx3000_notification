@@ -8,6 +8,7 @@ from settings import *
 
 fake = faker.Faker()
 
+
 # f = open('user-agents_chrome_browser_win10_64.json')
 # win10_user_agents = json.load(f)
 
@@ -40,19 +41,20 @@ def bestbuy_detect(link: str, v, a, lock):
             if response.status_code == 200:  # 200 OK
                 if 'Sold Out</button>' in response.text or 'Coming Soon</button>' in response.text:
                     print(f'No, {link}')
+                elif 'This item is no longer available in new condition.' not in response.text:
+                    print(f'YES, {link}')
+                    result = True
                 else:
-                    if 'This item is no longer available in new condition.' not in response.text:
-                        print(f'YES, {link}')
-                        result = True
+                    print(f'No, {link}')
                 with lock:
                     v.value += 1
                     if result:
                         a.append(link)
                 return None
             else:  # Non-success status code, failed
-                 print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
-                 time.sleep(Settings.TIMEOUT_RETRY)
-                 fails += 1
+                print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
+                time.sleep(Settings.TIMEOUT_RETRY)
+                fails += 1
         except requests.exceptions.ReadTimeout:
             # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
             time.sleep(Settings.TIMEOUT_RETRY)
@@ -116,9 +118,9 @@ def amazon_detect(link: str, v, a, lock):
                             a.append(link)
                     return None
             else:  # Non-success status code, failed
-                 print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
-                 time.sleep(Settings.TIMEOUT_RETRY)
-                 fails += 1
+                print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
+                time.sleep(Settings.TIMEOUT_RETRY)
+                fails += 1
         except requests.exceptions.ReadTimeout:
             # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
             time.sleep(Settings.TIMEOUT_RETRY)
@@ -170,9 +172,9 @@ def newegg_detect(link: str, v, a, lock):
                         a.append(link)
                 return None
             else:  # Non-success status code, failed
-                 print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
-                 time.sleep(Settings.TIMEOUT_RETRY)
-                 fails += 1
+                print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
+                time.sleep(Settings.TIMEOUT_RETRY)
+                fails += 1
         except requests.exceptions.ReadTimeout:
             # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
             time.sleep(Settings.TIMEOUT_RETRY)
@@ -182,4 +184,3 @@ def newegg_detect(link: str, v, a, lock):
             print(f'Unknown error! Waiting {Settings.UNKNOWN_ERROR_RETRY} seconds')
             time.sleep(Settings.UNKNOWN_ERROR_RETRY)
             fails += 1
-

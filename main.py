@@ -6,13 +6,14 @@ from detect import *
 
 if __name__ == "__main__":
     with Manager() as manager:
+        notify = Notify()
+        total_url_count = len(Settings.bestbuty_url_bank) + len(Settings.amazon_url_bank) + len(
+            Settings.newegg_url_bank)
+        start_time = time.time()
+        v = Value('i', 0)  # success count
+        l = manager.list()
+        lock = Lock()
         while True:  # Yes, while true
-            total_url_count = len(Settings.bestbuty_url_bank) + len(Settings.amazon_url_bank) + len(
-                Settings.newegg_url_bank)
-            start_time = time.time()
-            v = Value('i', 0)  # success count
-            l = manager.list()
-            lock = Lock()
             best_buy_procs = [Process(target=bestbuy_detect, args=(url, v, l, lock)) for url in
                               Settings.bestbuty_url_bank]
             amazon_procs = [Process(target=amazon_detect, args=(url, v, l, lock)) for url in Settings.amazon_url_bank]
@@ -33,6 +34,6 @@ if __name__ == "__main__":
                       f'{v.value} Success, {total_url_count - v.value} Failed')
                 print("Links:")
                 print(l)
-                notify(l)
+                notify.notify(l)
             print(f'Sleeping {Settings.BETWEEN_ROUNDS} seconds')
             time.sleep(Settings.BETWEEN_ROUNDS)

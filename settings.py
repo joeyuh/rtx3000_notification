@@ -11,6 +11,8 @@ class Settings:   # The Settings class
     MAX_RETRIES_COUNT = 3
 
     # Notification
+    MINIMAL_REALERT_INTERVAL = 5  # same item will not be notified for x minutes, set -1 for unlimited
+
     AUDIO_ALERT = True
     beep_time = 30
 
