@@ -24,7 +24,7 @@ class Notify:
 
     def notify(self, url_list: list):
         now = datetime.datetime.now()
-        if Settings.MINIMAL_REALERT_INTERVAL !=-1:
+        if Settings.MINIMAL_REALERT_INTERVAL != -1:
             for url in url_list:
                 if url in self.history:
                     last_alerted = datetime.datetime.fromisoformat(self.history[url])
@@ -32,7 +32,13 @@ class Notify:
                     if time_delta.total_seconds() / 60 < Settings.MINIMAL_REALERT_INTERVAL:  # already alerted recently
                         print(f'Last alerted {self.history[url]}. Not going to alert again about {url}')
                         url_list.remove(url)
-                self.history[url] = datetime.datetime.isoformat(now)
+                    else:
+                        # if we haven't alert recently, alert
+                        # and update time
+                        self.history[url] = datetime.datetime.isoformat(now)
+                else:
+                    # First time alerting, store in history
+                    self.history[url] = datetime.datetime.isoformat(now)
             with open('history.json', 'w') as f:
                 json.dump(self.history, f)
 
