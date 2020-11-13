@@ -11,6 +11,7 @@ def bestbuy_detect(link: str, v, a, lock, settings):
     while True:
         if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
+            return
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "Sec-Fetch-Site": "same-origin",
@@ -63,6 +64,7 @@ def amazon_detect(link: str, v, a, lock, settings):
     while True:
         if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
+            return
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "Sec-Fetch-Site": "same-origin",
@@ -128,6 +130,7 @@ def newegg_detect(link: str, v, a, lock, settings):
     while True:
         if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
+            return
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "Sec-Fetch-Site": "same-origin",
