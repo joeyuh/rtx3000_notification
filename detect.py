@@ -3,16 +3,14 @@ import time
 import faker
 import requests
 
-from settings import *
-
 fake = faker.Faker()
 
-def bestbuy_detect(link: str, v, a, lock):
+
+def bestbuy_detect(link: str, v, a, lock, settings):
     fails = 0
     while True:
-        if fails > Settings.MAX_RETRIES_COUNT:
+        if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
-            return False
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "Sec-Fetch-Site": "same-origin",
@@ -29,7 +27,7 @@ def bestbuy_detect(link: str, v, a, lock):
         # print("Sending Request")
         try:
             result = False
-            response = requests.get(link, headers=headers, timeout=Settings.TIMEOUT)
+            response = requests.get(link, headers=headers, timeout=settings["timeout"])
             # print(response.text)  # Debug
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
@@ -46,26 +44,25 @@ def bestbuy_detect(link: str, v, a, lock):
                         a.append(link)
                 return None
             else:  # Non-success status code, failed
-                print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
-                time.sleep(Settings.TIMEOUT_RETRY)
+                print(f'Code {response.status_code}, sleeping {settings["timeout_retry_delay"]} seconds')
+                time.sleep(settings["timeout_retry_delay"])
                 fails += 1
         except requests.exceptions.ReadTimeout:
-            # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
-            time.sleep(Settings.TIMEOUT_RETRY)
+            # print(f'Timeout! Waiting {settings["timeout_retry_delay"]} seconds')
+            time.sleep(settings["timeout_retry_delay"])
             fails += 1
         except Exception as e:
             print(f'Error Info: {e}')
-            print(f'Unknown error! Waiting {Settings.UNKNOWN_ERROR_RETRY} seconds')
-            time.sleep(Settings.UNKNOWN_ERROR_RETRY)
+            print(f'Unknown error! Waiting {settings["unknown_error_retry_delay"]} seconds')
+            time.sleep(settings["unknown_error_retry_delay"])
             fails += 1
 
 
-def amazon_detect(link: str, v, a, lock):
+def amazon_detect(link: str, v, a, lock, settings):
     fails = 0
     while True:
-        if fails > Settings.MAX_RETRIES_COUNT:
+        if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
-            return False
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "Sec-Fetch-Site": "same-origin",
@@ -84,7 +81,7 @@ def amazon_detect(link: str, v, a, lock):
         # print("Sending Request")
         try:
             result = False
-            response = requests.get(link, headers=headers, timeout=Settings.TIMEOUT)
+            response = requests.get(link, headers=headers, timeout=settings["timeout"])
             # print(response.text)  # Debug
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
@@ -92,8 +89,8 @@ def amazon_detect(link: str, v, a, lock):
                     print('Somehow we have a touch screen user_agent, retrying immediately')
                     # fails += 1
                 elif 'not a robot' in response.text:
-                    # print(f'Amazon think we are bot, sleeping {Settings.BOT_RETRY} seconds')
-                    time.sleep(Settings.BOT_RETRY)
+                    # print(f'Amazon think we are bot, sleeping {settings['bot_retry_delay']} seconds')
+                    time.sleep(settings['bot_retry_delay'])
                     fails += 1
                 else:
                     if 'Available from' in response.text or 'Currently unavailable' in response.text:
@@ -112,26 +109,25 @@ def amazon_detect(link: str, v, a, lock):
                             a.append(link)
                     return None
             else:  # Non-success status code, failed
-                print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
-                time.sleep(Settings.TIMEOUT_RETRY)
+                print(f'Code {response.status_code}, sleeping {settings["timeout_retry_delay"]} seconds')
+                time.sleep(settings["timeout_retry_delay"])
                 fails += 1
         except requests.exceptions.ReadTimeout:
-            # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
-            time.sleep(Settings.TIMEOUT_RETRY)
+            # print(f'Timeout! Waiting {settings["timeout_retry_delay"]} seconds')
+            time.sleep(settings["timeout_retry_delay"])
             fails += 1
         except Exception as e:
             print(f'Error Info: {e}')
-            print(f'Unknown error! Waiting {Settings.UNKNOWN_ERROR_RETRY} seconds')
-            time.sleep(Settings.UNKNOWN_ERROR_RETRY)
+            print(f'Unknown error! Waiting {settings["unknown_error_retry_delay"]} seconds')
+            time.sleep(settings["unknown_error_retry_delay"])
             fails += 1
 
 
-def newegg_detect(link: str, v, a, lock):
+def newegg_detect(link: str, v, a, lock, settings):
     fails = 0
     while True:
-        if fails > Settings.MAX_RETRIES_COUNT:
+        if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
-            return False
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "Sec-Fetch-Site": "same-origin",
@@ -148,7 +144,7 @@ def newegg_detect(link: str, v, a, lock):
         # print("Sending Request")
         try:
             result = False
-            response = requests.get(link, headers=headers, timeout=Settings.TIMEOUT)
+            response = requests.get(link, headers=headers, timeout=settings["timeout"])
             # print(response.text)  # Debug
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
@@ -166,15 +162,15 @@ def newegg_detect(link: str, v, a, lock):
                         a.append(link)
                 return None
             else:  # Non-success status code, failed
-                print(f'Code {response.status_code}, sleeping {Settings.TIMEOUT_RETRY} seconds')
-                time.sleep(Settings.TIMEOUT_RETRY)
+                print(f'Code {response.status_code}, sleeping {settings["timeout_retry_delay"]} seconds')
+                time.sleep(settings["timeout_retry_delay"])
                 fails += 1
         except requests.exceptions.ReadTimeout:
-            # print(f'Timeout! Waiting {Settings.TIMEOUT_RETRY} seconds')
-            time.sleep(Settings.TIMEOUT_RETRY)
+            # print(f'Timeout! Waiting {settings["timeout_retry_delay"]} seconds')
+            time.sleep(settings["timeout_retry_delay"])
             fails += 1
         except Exception as e:
             print(f'Error Info: {e}')
-            print(f'Unknown error! Waiting {Settings.UNKNOWN_ERROR_RETRY} seconds')
-            time.sleep(Settings.UNKNOWN_ERROR_RETRY)
+            print(f'Unknown error! Waiting {settings["unknown_error_retry_delay"]} seconds')
+            time.sleep(settings["unknown_error_retry_delay"])
             fails += 1
