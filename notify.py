@@ -23,10 +23,10 @@ class Notify:
         self.recipients = []
         self.html_template = '{0}'
 
-        if self.settings['email_alert'] and os.path.exists('recipient_emails.json'):
+        if os.path.exists('recipient_emails.json'):
             with open('recipient_emails.json', 'r') as f:
                 self.recipients = json.load(f)
-        else:
+        elif self.settings['email_alert']:
             raise Exception('EMAIL ALERTS ARE ENABLED YET MISSING recipient_emails.json')
 
         if os.path.exists('email_template.html'):
