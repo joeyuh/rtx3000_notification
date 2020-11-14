@@ -11,5 +11,9 @@
   "open_in_browser": true,
   "email_alert": true,
   "email_subject": "IN STOCK ALERT ",
-  "discord": false
+  "sender_email_address": "",
+  "sender_email_password": "",
+  "discord": false,
+  "discord_token": "",
+  "discord_guild": ""
 }

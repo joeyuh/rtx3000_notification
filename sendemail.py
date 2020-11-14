@@ -1,14 +1,13 @@
 # Modified sendemail.py from github.com/joeyuhj/pricematch
 import smtplib
-import os
 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
-def send_an_email(subject, recipient, text_content, html_content):
-    email_address = os.getenv('SENDER_EMAIL_ADDRESS')
-    email_password = os.getenv('SENDER_EMAIL_PASSWORD')
+def send_an_email(settings, subject, recipient, text_content, html_content):
+    email_address = settings['sender_email_address']
+    email_password = settings['sender_email_password']
 
     # formatting the email, creating message, subject, adding a recipient, and adding some text
     msg = MIMEMultipart("alternative")

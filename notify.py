@@ -64,11 +64,11 @@ class Notify:
                     self.history[url] = datetime.datetime.isoformat(now)
             try:
                 with open('history.json', 'w') as f:
-                    json.dump(self.history, f)
+                    json.dump(self.history, f, indent=4)
             except Exception as e:
                 self.json_error = True
                 print(
-                    f'Failed to load JSON. Likely IO/Permission errors. History and re-alert interval features will be '
+                    f'Failed to dump JSON. Likely IO/Permission errors. History and re-alert interval features will be '
                     f'disabled. Error: {e}. If you want to re-enable such features, resolve the error and relaunch')
 
         if len(url_list) == 0:  # empty list do nothing
@@ -88,11 +88,12 @@ class Notify:
             for url in url_list:
                 for address in self.recipients:
                     email_thread.append(
-                        threading.Thread(target=send_an_email, args=(self.settings['email_subject'] + url,
-                                                                     address,
-                                                                     url,
-                                                                     self.html_template.format(
-                                                                         url))))
+                        threading.Thread(target=send_an_email,
+                                         args=(self.settings, self.settings['email_subject'] + url,
+                                               address,
+                                               url,
+                                               self.html_template.format(
+                                                   url))))
                     # Send multiple email by calling send email function with multithreading
             for t in email_thread: t.start()  # start all email threads
 
