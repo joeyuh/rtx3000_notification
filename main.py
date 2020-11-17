@@ -34,9 +34,10 @@ if __name__ == "__main__":
         if not total_url_count:
             raise Exception('MISSING ALL URLS, PLEASE ADD AT LEAST ONE JSON FILE')
 
-        print("Starting discord thread")
-        discord_proc = Process(target=discord_bot.main)
-        discord_proc.start()
+        if settings['discord']:
+            print("Starting discord thread")
+            discord_proc = Process(target=discord_bot.main)
+            discord_proc.start()
 
         while True:  # Yes, while true
             start_time = time.time()
