@@ -1,6 +1,7 @@
 import json
 from multiprocessing import Process, Value, Lock, Manager
 
+import discord_bot
 from detect import *
 from notify import *
 
@@ -32,6 +33,10 @@ if __name__ == "__main__":
         total_url_count = len(bestbuy_url_bank) + len(amazon_url_bank) + len(newegg_url_bank)
         if not total_url_count:
             raise Exception('MISSING ALL URLS, PLEASE ADD AT LEAST ONE JSON FILE')
+
+        print("Starting discord thread")
+        discord_proc = Process(target=discord_bot.main)
+        discord_proc.start()
 
         while True:  # Yes, while true
             start_time = time.time()

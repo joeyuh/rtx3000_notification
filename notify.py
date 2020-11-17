@@ -49,7 +49,7 @@ class Notify:
         if self.settings['minimal_re_alert_interval'] != -1 and not self.json_error:
             for url in url_list:
                 if url in self.history:
-                    last_alerted = datetime.datetime.fromisoformat(self.history[url])
+                    last_alerted = datetime.datetime.fromisoformat(self.history[url]['time'])
                     time_delta = now - last_alerted
                     if time_delta.total_seconds() / 60 < self.settings['minimal_re_alert_interval']:
                         # already alerted recently
@@ -58,10 +58,14 @@ class Notify:
                     else:
                         # if we haven't alert recently, alert
                         # and update time
-                        self.history[url] = datetime.datetime.isoformat(now)
+                        self.history[url] = {}
+                        self.history[url]['time'] = datetime.datetime.isoformat(now)
+                        self.history[url]['discord_alerted'] = False
                 else:
                     # First time alerting, store in history
-                    self.history[url] = datetime.datetime.isoformat(now)
+                    self.history[url] = {}
+                    self.history[url]['time'] = datetime.datetime.isoformat(now)
+                    self.history[url]['discord_alerted'] = False
             try:
                 with open('history.json', 'w') as f:
                     json.dump(self.history, f, indent=4)
@@ -102,9 +106,12 @@ class Notify:
 
         for t in email_thread: t.join()  # Join all email threads
 
+
 # Debug
 # if __name__ == '__main__':
 #     with open('config.json', 'r') as f:
 #         settings = json.load(f)
 #     notify = Notify(settings)
-#     notify.notify(['google.com'])
+#     notify.notify(['https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070/',
+#                    'https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3080/',
+#                    'https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3090/'])
