@@ -9,7 +9,7 @@
   "audio_alert": true,
   "audio_beeps": 30,
   "open_in_browser": true,
-  "email_alert": true,
+  "email_alert": false,
   "email_subject": "IN STOCK ALERT ",
   "sender_email_address": "",
   "sender_email_password": "",
