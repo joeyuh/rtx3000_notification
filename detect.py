@@ -154,8 +154,8 @@ def newegg_detect(link: str, v, a, lock, settings):
                 if 'CURRENTLY SOLD OUT' not in response.text and 'OUT OF STOCK' not in response.text:
                     if 'Sold by: <strong>Newegg' in response.text:
                         print(f'YES, {link}')
-                        with open('debug.html', 'w') as f:
-                            f.write(response.text)
+                        # with open('debug.html', 'w') as f:
+                        #     f.write(response.text)
                         result = True
                 else:
                     print(f'No, {link}')

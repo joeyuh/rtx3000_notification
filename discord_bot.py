@@ -37,7 +37,7 @@ async def my_background_task():
                     if isinstance(channel, discord.TextChannel):
                         if ''.join(i for i in channel.name if i.isdigit()) in link:
                             await channel.send(
-                                f'Testing Alert: {channel.name}, {link}\nTime: {alert[link]["time"]} {LOCAL_TIME_ZONE}')
+                                f'ALERT: {channel.name}, {link}\nTime: {alert[link]["time"]} {LOCAL_TIME_ZONE}')
 
             with open('history.json', 'w') as f:
                 json.dump(alert, f, indent=4)
