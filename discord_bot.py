@@ -35,6 +35,7 @@ async def uptime():
             if channel.name == 'uptime':
                 delta = datetime.datetime.now() - start_time
                 await channel.send(f'Bot is up! Last {UPTIME_NOTIFICATION_INTERVAL} minutes: {alert_count} alerts\n'
+                                   f'Last startup: {start_time.isoformat()} {LOCAL_TIME_ZONE} \n'
                                    f'Total uptime {strfdelta(delta, "{days} days {hours} hours {minutes} minutes {seconds} seconds")}')
                 alert_count = 0
         await asyncio.sleep(UPTIME_NOTIFICATION_INTERVAL * 60)
@@ -75,6 +76,9 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
+    for channel in client.get_all_channels():
+        if channel.name == 'uptime':
+            await channel.send(f'Bot restarted at {start_time.isoformat()} {LOCAL_TIME_ZONE} \n')
 
 
 def main():
