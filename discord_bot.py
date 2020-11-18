@@ -31,6 +31,7 @@ async def uptime():
     await client.wait_until_ready()
     global alert_count
     while True:
+        await asyncio.sleep(UPTIME_NOTIFICATION_INTERVAL * 60)
         for channel in client.get_all_channels():
             if channel.name == 'uptime':
                 delta = datetime.datetime.now() - start_time
@@ -38,7 +39,6 @@ async def uptime():
                                    f'Last startup: {start_time.isoformat()} {LOCAL_TIME_ZONE} \n'
                                    f'Total uptime {strfdelta(delta, "{days} days {hours} hours {minutes} minutes {seconds} seconds")}')
                 alert_count = 0
-        await asyncio.sleep(UPTIME_NOTIFICATION_INTERVAL * 60)
 
 
 async def alert_task():
@@ -61,9 +61,16 @@ async def alert_task():
             for link in links:
                 for channel in client.get_all_channels():
                     if isinstance(channel, discord.TextChannel):
-                        if ''.join(i for i in channel.name if i.isdigit()) in link:
+                        if channel.name == 'all_alert':
                             await channel.send(
                                 f'ALERT: {channel.name}, {link}\nTime: {alert[link]["time"]} {LOCAL_TIME_ZONE}')
+
+                        else:
+                            numeric = ''.join(i for i in channel.name if i.isdigit())
+                            # the channel name should contain numbers and match number in url
+                            if numeric and numeric in link:
+                                await channel.send(
+                                    f'ALERT: {channel.name}, {link}\nTime: {alert[link]["time"]} {LOCAL_TIME_ZONE}')
 
             with open('history.json', 'w') as f:
                 json.dump(alert, f, indent=4)
