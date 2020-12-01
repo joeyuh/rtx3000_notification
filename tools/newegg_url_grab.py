@@ -58,5 +58,5 @@ if __name__ == '__main__':
         print(url)
     print(len(urls))
 
-    with open('newegg_url.json', 'w') as f:
+    with open('../newegg_url.json', 'w') as f:
         json.dump(list(urls), f, indent=4)
