@@ -15,5 +15,9 @@
   "sender_email_password": "",
   "discord": false,
   "discord_token": "",
-  "discord_guild": ""
+  "discord_guild": "",
+  "newegg_cooldown": true,
+  "newegg_cooldown_delay": 90,
+  "amazon_cooldown": true,
+  "amazon_cooldown_delay": 90
 }
