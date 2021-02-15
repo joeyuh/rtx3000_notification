@@ -6,11 +6,12 @@ import requests
 fake = faker.Faker()
 
 
-def bestbuy_detect(link: str, v, a, lock, settings):
+def bestbuy_detect(v, a, lock, settings, sema, link: str):
     fails = 0
     while True:
         if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
+            sema.release()
             return
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -43,6 +44,7 @@ def bestbuy_detect(link: str, v, a, lock, settings):
                     v.value += 1
                     if result:
                         a.append(link)
+                sema.release()
                 return None
             else:  # Non-success status code, failed
                 print(f'Code {response.status_code}, sleeping {settings["timeout_retry_delay"]} seconds')
@@ -59,11 +61,12 @@ def bestbuy_detect(link: str, v, a, lock, settings):
             fails += 1
 
 
-def amazon_detect(link: str, v, a, lock, settings):
+def amazon_detect(v, a, lock, settings, sema, link: str):
     fails = 0
     while True:
         if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
+            sema.release()
             return
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -91,7 +94,7 @@ def amazon_detect(link: str, v, a, lock, settings):
                     print('Somehow we have a touch screen user_agent, retrying immediately')
                     # fails += 1
                 elif 'not a robot' in response.text:
-                    # print(f'Amazon think we are bot, sleeping {settings['bot_retry_delay']} seconds')
+                    print(f"Amazon think we are bot, sleeping {settings['bot_retry_delay']} seconds")
                     time.sleep(settings['bot_retry_delay'])
                     fails += 1
                 else:
@@ -109,6 +112,7 @@ def amazon_detect(link: str, v, a, lock, settings):
                         v.value += 1
                         if result:
                             a.append(link)
+                    sema.release()
                     return None
             else:  # Non-success status code, failed
                 print(f'Code {response.status_code}, sleeping {settings["timeout_retry_delay"]} seconds')
@@ -125,11 +129,12 @@ def amazon_detect(link: str, v, a, lock, settings):
             fails += 1
 
 
-def newegg_detect(link: str, v, a, lock, settings):
+def newegg_detect(v, a, lock, settings, sema, link: str):
     fails = 0
     while True:
         if fails > settings["max_retries_count"]:
             print("Max retries used. Continuing. Maybe check Internet connection.")
+            sema.release()
             return
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -151,18 +156,19 @@ def newegg_detect(link: str, v, a, lock, settings):
             # print(response.text)  # Debug
             # print("Response receive")
             if response.status_code == 200:  # 200 OK
-                if 'CURRENTLY SOLD OUT' not in response.text and 'OUT OF STOCK' not in response.text:
-                    if 'Sold by: <strong>Newegg' in response.text:
-                        print(f'YES, {link}')
-                        # with open('debug.html', 'w') as f:
-                        #     f.write(response.text)
-                        result = True
+                if 'CURRENTLY SOLD OUT' not in response.text and 'OUT OF STOCK' not in response.text and\
+                        'Sold by: <strong>Newegg' in response.text and 'Auto Notify' not in response.text:
+                    print(f'YES, {link}')
+                    # with open('debug.html', 'w') as f:
+                    #     f.write(response.text)
+                    result = True
                 else:
                     print(f'No, {link}')
                 with lock:
                     v.value += 1
                     if result:
                         a.append(link)
+                sema.release()
                 return None
             else:  # Non-success status code, failed
                 print(f'Code {response.status_code}, sleeping {settings["timeout_retry_delay"]} seconds')

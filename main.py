@@ -1,5 +1,6 @@
 import json
-from multiprocessing import Process, Value, Lock, Manager
+import multiprocessing
+from multiprocessing import Process, Value, Lock, Manager, Semaphore
 
 import discord_bot
 from detect import *
@@ -42,19 +43,20 @@ if __name__ == "__main__":
         newegg_last = datetime.datetime.now() - datetime.timedelta(days=1)
         amazon_last = datetime.datetime.now() - datetime.timedelta(days=1)
 
+        sema = Semaphore(int(multiprocessing.cpu_count()*1.5))
+        lock = Lock()
         while True:  # Yes, while true
             start_time = time.time()
             v = Value('i', 0)  # success count
             l = manager.list()
-            lock = Lock()
 
-            best_buy_procs = [Process(target=bestbuy_detect, args=(url, v, l, lock, settings)) for url in
+            best_buy_procs = [Process(target=bestbuy_detect, args=(v, l, lock, settings, sema, url)) for url in
                               bestbuy_url_bank]
             newegg_procs = []
             wait = datetime.datetime.now() - newegg_last
             if wait.total_seconds() > settings['newegg_cooldown_delay'] or \
                     (not settings['newegg_cooldown']):
-                newegg_procs = [Process(target=newegg_detect, args=(url, v, l, lock, settings)) for url in
+                newegg_procs = [Process(target=newegg_detect, args=(v, l, lock, settings, sema, url)) for url in
                                 newegg_url_bank]
                 newegg_last = datetime.datetime.now()
             else:
@@ -64,20 +66,21 @@ if __name__ == "__main__":
             amazon_procs = []
             if wait.total_seconds() > settings['amazon_cooldown_delay'] or \
                     (not settings['amazon_cooldown']):
-                amazon_procs = [Process(target=amazon_detect, args=(url, v, l, lock, settings)) for url in amazon_url_bank]
+                amazon_procs = [Process(target=amazon_detect, args=(v, l, lock, settings, sema, url)) for url in
+                                amazon_url_bank]
                 amazon_last = datetime.datetime.now()
             else:
                 print('Skipping amazon for cooldown')
 
-            total_count = len(amazon_procs) + len(newegg_procs) + len(best_buy_procs)
+            all_procs = best_buy_procs + amazon_procs + newegg_procs
+            total_count = len(all_procs)
 
-            for p in best_buy_procs: p.start()
-            for p in amazon_procs: p.start()
-            for p in newegg_procs: p.start()
+            for proc in all_procs:
+                sema.acquire()
+                proc.start()
 
-            for p in best_buy_procs: p.join()
-            for p in amazon_procs: p.join()
-            for p in newegg_procs: p.join()
+            for proc in all_procs:
+                proc.join()
 
             if v.value == 0:
                 print(
