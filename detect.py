@@ -2,11 +2,12 @@ import time
 
 import faker
 import requests
+import threading
 
 fake = faker.Faker()
 
 
-def bestbuy_detect(v, a, lock, settings, sema, link: str):
+def bestbuy_detect(v, a, lock, settings, sema, notify, link: str):
     fails = 0
     while True:
         if fails > settings["max_retries_count"]:
@@ -38,6 +39,8 @@ def bestbuy_detect(v, a, lock, settings, sema, link: str):
                 elif 'This item is no longer available in new condition.' not in response.text:
                     print(f'YES, {link}')
                     result = True
+                    notify_thread = threading.Thread(target=notify.notify([link]))
+                    notify_thread.start()
                 else:
                     print(f'No, {link}')
                 with lock:
@@ -61,7 +64,7 @@ def bestbuy_detect(v, a, lock, settings, sema, link: str):
             fails += 1
 
 
-def amazon_detect(v, a, lock, settings, sema, link: str):
+def amazon_detect(v, a, lock, settings, sema, notify, link: str):
     fails = 0
     while True:
         if fails > settings["max_retries_count"]:
@@ -106,6 +109,8 @@ def amazon_detect(v, a, lock, settings, sema, link: str):
                             # with open('debug.html', 'w') as f:
                             #    f.write(response.text)
                             result = True
+                            notify_thread = threading.Thread(target=notify.notify([link]))
+                            notify_thread.start()
                         else:
                             print(f'No, {link}')
                     with lock:
@@ -129,7 +134,7 @@ def amazon_detect(v, a, lock, settings, sema, link: str):
             fails += 1
 
 
-def newegg_detect(v, a, lock, settings, sema, link: str):
+def newegg_detect(v, a, lock, settings, sema, notify, link: str):
     fails = 0
     while True:
         if fails > settings["max_retries_count"]:
@@ -162,6 +167,8 @@ def newegg_detect(v, a, lock, settings, sema, link: str):
                     # with open('debug.html', 'w') as f:
                     #     f.write(response.text)
                     result = True
+                    notify_thread = threading.Thread(target=notify.notify([link]))
+                    notify_thread.start()
                 else:
                     print(f'No, {link}')
                 with lock:

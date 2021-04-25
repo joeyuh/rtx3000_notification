@@ -50,13 +50,13 @@ if __name__ == "__main__":
             v = Value('i', 0)  # success count
             l = manager.list()
 
-            best_buy_procs = [Process(target=bestbuy_detect, args=(v, l, lock, settings, sema, url)) for url in
+            best_buy_procs = [Process(target=bestbuy_detect, args=(v, l, lock, settings, sema, notify,  url)) for url in
                               bestbuy_url_bank]
             newegg_procs = []
             wait = datetime.datetime.now() - newegg_last
             if wait.total_seconds() > settings['newegg_cooldown_delay'] or \
                     (not settings['newegg_cooldown']):
-                newegg_procs = [Process(target=newegg_detect, args=(v, l, lock, settings, sema, url)) for url in
+                newegg_procs = [Process(target=newegg_detect, args=(v, l, lock, settings, sema, notify, url)) for url in
                                 newegg_url_bank]
                 newegg_last = datetime.datetime.now()
             else:
@@ -66,7 +66,7 @@ if __name__ == "__main__":
             amazon_procs = []
             if wait.total_seconds() > settings['amazon_cooldown_delay'] or \
                     (not settings['amazon_cooldown']):
-                amazon_procs = [Process(target=amazon_detect, args=(v, l, lock, settings, sema, url)) for url in
+                amazon_procs = [Process(target=amazon_detect, args=(v, l, lock, settings, sema, notify, url)) for url in
                                 amazon_url_bank]
                 amazon_last = datetime.datetime.now()
             else:
@@ -92,7 +92,7 @@ if __name__ == "__main__":
                       f'{v.value} Success, {total_count - v.value} Failed')
                 print("Links:")
                 print(l)
-                notify.notify(l)
+
 
             print(f'Sleeping {settings["between_rounds_delay"]} seconds')
             time.sleep(settings["between_rounds_delay"])

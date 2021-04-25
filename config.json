@@ -5,7 +5,7 @@
   "unknown_error_retry_delay": 2,
   "bot_retry_delay": 0.5,
   "max_retries_count": 3,
-  "minimal_re_alert_interval": 5,
+  "minimal_re_alert_interval": 60,
   "audio_alert": true,
   "audio_beeps": 30,
   "open_in_browser": true,
